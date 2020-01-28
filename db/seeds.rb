@@ -11,3 +11,9 @@
 
 # product = Product.new({name: "Wireless Mouse", price: 24, image_url: "https://i5.walmartimages.com/asr/99775087-df08-4dae-82af-4cd401579c6b_1.b572153a3b3b183528e715c387adfa0c.jpeg", description: "Move that cursor around with style with the Logitech wireless mouse.", manual: "https://www.logitech.com/en-us/manuals/m335-setup-guide", specs: "Black color with rubber texture, usb dongle, runs on 1 AA battery."})
 # product.save
+ 
+# images = Image.create([
+#   {
+#     url: "https://images-na.ssl-images-amazon.com/images/I/81MLyXhaK0L._SX466_.jpg"
+#   }
+# ])

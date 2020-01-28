@@ -1,7 +1,16 @@
 class Api::ProductsController < ApplicationController
 
   def index
-    @product = Product.all
+    @products = Product.all
+
+    if params[:search]
+      @products = @products.where("name iLIKE?", "%#{params[:search]}%")
+    end
+
+    if params[:discount]
+      @products = @products.where("price < ?", 100)
+    end
+
     render "index.json.jb"
   end
 
@@ -9,13 +18,16 @@ class Api::ProductsController < ApplicationController
     @product = Product.new(
       name: params["name"],
       price: params["price"],
-      image_url: params["image_url"],
+      images: params["images"], #changed from image_url
       description: params["description"],
       manual: params["manual"],
       specs: params["specs"]
     )
-    @product.save
-    render "show.json.jb"
+    if @product.save
+      render "show.json.jb"
+    else
+      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -28,13 +40,17 @@ class Api::ProductsController < ApplicationController
 
     @product.name = params[:name] || @product.name
     @product.price = params[:price] || @product.price
-    @product.image_url = params[:image_url] || @product.image_url
+    @product.images = params[:images] || @product.images #changed from image_url
     @product.description = params[:description] || @product.description
     @product.manual = params[:manual] || @product.manual
     @product.specs = params[:specs] || @product.specs
 
-    @product.save
-    render "show.json.jb"
+    if @product.save
+      render "show.json.jb"
+    else
+      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+    end
+    
   end
 
   def destroy
