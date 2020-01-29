@@ -2,6 +2,7 @@ class Product < ApplicationRecord
 
   #association method
   belongs_to :supplier
+  has_many :orders
 
   #This method does the same as the associateion method above. Use this to create a custom method.
   # def supplier
