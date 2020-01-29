@@ -6,6 +6,7 @@
   manual: product.manual,
   specs: product.specs,
   images: product.images,
+  current_user: current_user,
   formatted: {
     discounted: product.is_discounted?,
     price: number_to_currency(product.price),

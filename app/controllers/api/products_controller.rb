@@ -1,7 +1,7 @@
 class Api::ProductsController < ApplicationController
 
   def index
-    @products = Product.all
+    @products = Product.all #array of contact hashes
 
     if params[:search]
       @products = @products.where("name iLIKE?", "%#{params[:search]}%")
@@ -31,7 +31,7 @@ class Api::ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find_by(id: params["id"])
+    @product = Product.find(params["id"]) #hash of product data
     render "show.json.jb"
   end
 
