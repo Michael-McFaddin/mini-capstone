@@ -1,6 +1,6 @@
 class Api::ProductsController < ApplicationController
 
-  # before_action :authenticate_admin, except: [:index, :show]
+  before_action :authenticate_admin, except: [:index, :show]
 
   def index
     @products = Product.all #array of contact hashes
@@ -18,12 +18,14 @@ class Api::ProductsController < ApplicationController
 
   def create
     @product = Product.new(
-      name: params["name"],
-      price: params["price"],
-      images: params["images"], #changed from image_url
-      description: params["description"],
-      manual: params["manual"],
-      specs: params["specs"]
+      name: params[:name],
+      price: params[:price],
+      # images: params[:images], #changed from image_url
+      description: params[:description],
+      in_stock: params[:in_stock],
+      manual: params[:manual],
+      specs: params[:specs],
+      supplier_id: params[:supplier_id]
     )
     if @product.save
       render "show.json.jb"
@@ -42,10 +44,12 @@ class Api::ProductsController < ApplicationController
 
     @product.name = params[:name] || @product.name
     @product.price = params[:price] || @product.price
-    @product.images = params[:images] || @product.images #changed from image_url
+    # @product.images = params[:images] || @product.images #changed from image_url
     @product.description = params[:description] || @product.description
+    @product.in_stock = params[:in_stock] || @product.in_stock
     @product.manual = params[:manual] || @product.manual
     @product.specs = params[:specs] || @product.specs
+
 
     if @product.save
       render "show.json.jb"
@@ -60,21 +64,5 @@ class Api::ProductsController < ApplicationController
     @product.destroy
     render json: {message: "The entry has been deleted successfully."}
   end
-
-  # def first_product_action
-  #   @product = Product.first #hash of product data
-  #   render "first_product.json.jb"
-  # end
-
-  # def second_product_action
-  #   @product = Product.find_by(id: 2)
-  #   render "first_product.json.jb"
-  # end
-
-  # def any_product_action
-  #   product_id = params[:id] #params["id"]
-  #   @product = Product.find_by(id: product_id)
-  #   render "any_product.json.jb"
-  # end
 
 end
